@@ -6,14 +6,31 @@ var province = require('../assets/areas/province');
 
 /* GET home page. */
 router.get('/areaList', function(req, res, next) {
-    const { provinceId, cityId } = req.query;
-    if (!provinceId && !cityId) {
-        res.send(province);
-    } else if (provinceId && !cityId) {
-        res.send(city[provinceId]);
-    } else if (cityId) {
-        res.send(country[cityId]);
+    const { provinceId, cityId, type } = req.query;
+    let result = null;
+
+    if (!['province', 'city', 'country'].includes(type)) {
+        res.send({
+            code: 400,
+            data: result,
+            message: 'type参数异常: '+type
+        });
+        return;
     }
+
+    if (type === 'province') {
+        result = province;
+    } else if (type === 'city' && provinceId) {
+        result = city[provinceId];
+    } else if (type === 'country' && cityId) {
+        result = country[cityId];
+    }
+
+    res.send({
+        code: 200,
+        data: result,
+        message: '请求成功'
+    });
 });
 
 module.exports = router;
