@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<script>
+    "use strict";
+
+    class ParentClass {
+
+        constructor (width, height) {
+            this.width = width;
+            this.height = height;
+        }
+
+        calc() {
+            return this.width * this.height;
+        }
+
+        get chen() {
+            return this.calc();
+        }
+
+    }
+
+    class ChildClass extends ParentClass {
+        constructor() {
+            super(8, 9);
+        }
+    }
+
+    var parent = new ParentClass(2, 5);
+    console.log(parent.chen);
+
+    var child = new ChildClass();
+
+    console.log(child.chen);
+
+</script>
+
+</body>
+</html>

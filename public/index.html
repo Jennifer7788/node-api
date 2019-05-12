@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Notification Test</title>
+</head>
+<body>
+
+<button onclick="noti()">Ah~~~ Click Me~~~ Ah~~~~~</button>
+
+<script>
+
+    function checkPermission(callback) {
+        if(!window.Notification) {
+            alert("不支持网页通知");
+        }
+
+        else if(Notification.permission === "granted") {
+            callback();
+        }
+
+        else if(Notification.permission !== 'denied') {
+            Notification.requestPermission(function (permission) {
+                console.log(permission);
+
+                callback();
+            });
+        }
+    }
+
+    function sendNotification(title, body, icon) {
+        var options = {
+            body: body,
+            icon: icon
+        };
+
+        var n = new Notification(title, options);
+        setTimeout(n.close.bind(n), 5000);
+
+        n.onclick = function (e) {
+            alert("hahaha");
+        };
+
+        n.onclose = function (e) {
+            alert("Closed");
+        };
+
+        n.onerror = function (e) {
+            alert("Error!");
+        };
+
+        n.onshow = function (e) {
+            alert("Show!");
+        };
+
+        console.log(n);
+    }
+
+    function noti() {
+        alert("click");
+
+        checkPermission(function () {
+            sendNotification("我是title", "我是Body", "im.jpg");
+        });
+    }
+</script>
+
+</body>
+</html>
